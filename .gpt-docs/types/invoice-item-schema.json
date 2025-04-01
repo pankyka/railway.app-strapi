@@ -1,0 +1,52 @@
+{
+  "collectionName": "invoiceitem",
+  "info": {
+    "singularName": "invoiceitem",
+    "pluralName": "invoiceitems",
+    "displayName": "InvoiceItem",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "description": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "decimal"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "unitPrice": {
+      "type": "decimal"
+    },
+    "totalNet": {
+      "type": "decimal"
+    },
+    "totalGross": {
+      "type": "decimal"
+    },
+    "vatRate": {
+      "type": "enumeration",
+      "enum": [
+        "27%",
+        "18%",
+        "5%",
+        "0%",
+        "AAM",
+        "AM",
+        "EUK",
+        "FAD",
+        "KBAET",
+        "KBAUK",
+        "MAA",
+        "TAM"
+      ]
+    },
+    "vatAmount": {
+      "type": "decimal"
+    }
+  }
+}
