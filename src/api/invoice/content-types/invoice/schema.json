@@ -13,11 +13,7 @@
   "attributes": {
     "source": {
       "type": "enumeration",
-      "enum": [
-        "NAV",
-        "Sz\u00e1ml\u00e1zz.hu",
-        "Billingo"
-      ]
+      "enum": ["NAV", "Sz\u00e1ml\u00e1zz.hu", "Billingo"]
     },
     "sourceInvoiceId": {
       "type": "string"
@@ -36,29 +32,15 @@
     },
     "currency": {
       "type": "enumeration",
-      "enum": [
-        "HUF",
-        "EUR",
-        "USD"
-      ]
+      "enum": ["HUF", "EUR", "USD"]
     },
     "paymentMethod": {
       "type": "enumeration",
-      "enum": [
-        "bank_transfer",
-        "cash",
-        "card",
-        "other"
-      ]
+      "enum": ["bank_transfer", "cash", "card", "other"]
     },
     "paymentStatus": {
       "type": "enumeration",
-      "enum": [
-        "pending",
-        "paid",
-        "overdue",
-        "partially_paid"
-      ]
+      "enum": ["pending", "paid", "overdue", "partially_paid"]
     },
     "totalNet": {
       "type": "decimal"
@@ -71,11 +53,7 @@
     },
     "invoiceType": {
       "type": "enumeration",
-      "enum": [
-        "normal",
-        "correction",
-        "proforma"
-      ]
+      "enum": ["normal", "correction", "proforma"]
     },
     "originalXml": {
       "type": "text"
@@ -95,6 +73,11 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::invoice-item.invoice-item"
+    },
+    "tenant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tenant.tenant"
     }
   }
 }

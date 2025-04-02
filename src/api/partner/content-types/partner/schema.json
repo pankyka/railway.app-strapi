@@ -28,6 +28,11 @@
     },
     "address": {
       "type": "string"
+    },
+    "tenant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::tenant.tenant"
     }
   }
 }
