@@ -1,9 +1,9 @@
 {
   "kind": "collectionType",
-  "collectionName": "invoiceitem",
+  "collectionName": "invoice-item",
   "info": {
-    "singularName": "invoiceitem",
-    "pluralName": "invoiceitems",
+    "singularName": "invoice-item",
+    "pluralName": "invoice-items",
     "displayName": "InvoiceItem",
     "description": ""
   },
