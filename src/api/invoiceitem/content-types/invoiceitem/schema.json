@@ -32,10 +32,10 @@
     "vatRate": {
       "type": "enumeration",
       "enum": [
-        "27%",
-        "18%",
-        "5%",
-        "0%",
+        "vat_27",
+        "vat_18",
+        "vat_5",
+        "vat_0",
         "AAM",
         "AM",
         "EUK",
