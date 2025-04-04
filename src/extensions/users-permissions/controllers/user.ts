@@ -1,49 +1,65 @@
 import { factories } from "@strapi/strapi";
 import { User } from "../../../types/user.interface";
+import { Role } from "../../../types/role.enum";
 
 export default factories.createCoreController(
   "plugin::users-permissions.user",
   ({ strapi }) => ({
-    async register(ctx) {
-      // Meghívjuk az eredeti regisztrációs logikát
-      const response = (await strapi
+    async registerWithTenant(ctx) {
+      const { email, password } = ctx.request.body;
+
+      if (!email || !password) {
+        return ctx.badRequest("Email and password are required");
+      }
+
+      const existingUser = await strapi
+        .query("plugin::users-permissions.user")
+        .findOne({
+          where: { email },
+        });
+
+      if (existingUser) {
+        return ctx.badRequest("User already exists");
+      }
+
+      const user = await strapi
         .plugin("users-permissions")
-        .controllers.auth.register(ctx, async () => {})) as { user: User };
+        .service("user")
+        .add({
+          email,
+          username: email, // Itt automatizáljuk a username-et
+          password,
+          confirmed: true,
+        });
 
-      const user = response.user;
-
-      // Létrehozunk egy új Tenant entitást
+      // Tenant létrehozása és összekapcsolás
       const tenant = await strapi.entityService.create("api::tenant.tenant", {
         data: {
-          name: user.username || user.email.split("@")[0],
+          name: `${email} tenant`,
+          owner: user.id,
         },
       });
 
-      // Frissítjük a regisztrált felhasználót tenant kapcsolattal + szerepkörrel
       await strapi.entityService.update(
         "plugin::users-permissions.user",
         user.id,
         {
           data: {
             tenant: tenant.id,
-            tenantRole: "TenantAdmin",
+            role: Role.TenantAdmin,
           },
         } as any
       );
 
-      // Újra lekérjük a user-t tenant-tal együtt
-      const updatedUser = await strapi.entityService.findOne(
-        "plugin::users-permissions.user",
-        user.id,
-        {
-          populate: ["tenant"],
-        }
-      );
+      // Token generálása
+      const token = strapi.plugin("users-permissions").service("jwt").issue({
+        id: user.id,
+      });
 
-      return {
-        ...response,
-        user: updatedUser,
-      };
+      ctx.send({
+        jwt: token,
+        user,
+      });
     },
   })
 );
